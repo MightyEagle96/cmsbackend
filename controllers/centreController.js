@@ -22,3 +22,8 @@ export const loginCentre = async (req, res) => {
 
   res.send(centre);
 };
+
+export const centreList = async (req, res) => {
+  const centres = await centreModel.find();
+  res.send(centres);
+};
