@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const schema = new Schema({
   centre: { type: Schema.Types.ObjectId, ref: "centre" },
-  mailBox: [
+  incomingMails: [
     {
       mailHeader: String,
       content: String,
