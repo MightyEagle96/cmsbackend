@@ -14,3 +14,11 @@ export const createCentre = async (req, res) => {
 
   res.send("Successfully created a new centre");
 };
+
+export const loginCentre = async (req, res) => {
+  const centre = await centreModel.findOne(req.body);
+
+  if (!centre) return res.status(400).send("Invalid centre reference number");
+
+  res.send(centre);
+};
