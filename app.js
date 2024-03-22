@@ -12,11 +12,10 @@ const port = process.env.PORT;
 
 ConnectDatabase();
 app
-
+  .use(cors())
   .use(express.json({ limit: "50mb" }))
 
   .use(morgan("dev"))
-  .use(cors())
 
   .use(router)
 
