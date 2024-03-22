@@ -10,6 +10,14 @@ const schema = new Schema({
       readStatus: { type: Boolean, default: false },
     },
   ], // Mailbox for
+  outgoingMails: [
+    {
+      mailHeader: String,
+      content: String,
+      dateSent: Date,
+      readStatus: { type: Boolean, default: false },
+    },
+  ], // Mailbox for
 });
 
 export default model("MailBox", schema);
