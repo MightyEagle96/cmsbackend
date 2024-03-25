@@ -59,17 +59,31 @@ async function main(emails, body) {
   });
   info.then(() => console.log("Message sent")).catch("Could not send message");
 }
+
+const centreVariable = "{centre}";
 export const sendMailPro = (req, res) => {
   try {
-    const emails = [
-      { email: "mightyeaglecorp@gmail.com", name: "Dubem" },
-      { email: "dubemeagleikechukwu@gmail.com", name: "Eagle" },
-      { email: "dubzy1sogeagle@gmail.com", name: "Mighty Eagle" },
-    ];
+    // const emails = [
+    //   { email: "mightyeaglecorp@gmail.com", name: "Dubem" },
+    //   { email: "dubemeagleikechukwu@gmail.com", name: "Eagle" },
+    //   { email: "dubzy1sogeagle@gmail.com", name: "Mighty Eagle" },
+    // ];
+    const recipients = req.body.recipients;
+    for (let i = 0; i < recipients.length; i++) {
+      const recipient = recipients[i];
 
-    for (let i = 0; i < emails.length; i++) {
-      req.body.name = emails[i].name;
-      main(emails[i].email, req.body).catch(console.error);
+      const content = req.body.mailData.content.replace(
+        centreVariable,
+        recipient.centreName.toUpperCase() || ""
+      );
+
+      const mailBody = {
+        subject: req.body.mailData.subject,
+        content,
+        name: recipient.adminName.toUpperCase() || "",
+      };
+
+      main(recipient.adminEmail, mailBody).catch(console.error);
     }
 
     res.send("Mail sent");
