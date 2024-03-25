@@ -4,7 +4,7 @@ const schema = new Schema({
   centre: { type: Schema.Types.ObjectId, ref: "centre" },
   incomingMails: [
     {
-      mailHeader: String,
+      subject: String,
       content: String,
       dateSent: Date,
       readStatus: { type: Boolean, default: false },
@@ -12,7 +12,7 @@ const schema = new Schema({
   ], // Mailbox for
   outgoingMails: [
     {
-      mailHeader: String,
+      subject: String,
       content: String,
       dateSent: Date,
       readStatus: { type: Boolean, default: false },
