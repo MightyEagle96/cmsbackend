@@ -43,8 +43,36 @@ export const loginCentre = async (req, res) => {
 };
 
 export const centreList = async (req, res) => {
-  const centres = await centreModel.find();
-  res.send(centres);
+  const { page, limit } = req.query;
+  const startIndex = (page - 1) * limit;
+
+  const centresCount = await centreModel.countDocuments();
+  const centres = await centreModel.find().skip(startIndex).limit(limit);
+
+  res.send({
+    startIndex: startIndex + 1,
+    allResultsLength: centresCount,
+    results: centres,
+  });
+};
+
+export const centreSuggestions = async (req, res) => {
+  try {
+    const centres = await centreModel
+      .find({
+        $or: [
+          { centreName: { $regex: req.body.value } },
+          { adminEmail: { $regex: req.body.value } },
+          { adminPhone: { $regex: req.body.value } },
+          { adminName: { $regex: req.body.value } },
+        ],
+      })
+      .limit(10);
+
+    res.send(centres);
+  } catch (error) {
+    res.status(500).send(new Error(error).message);
+  }
 };
 
 export const viewCentre = async (req, res) => {
