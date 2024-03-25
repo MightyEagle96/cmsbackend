@@ -58,18 +58,21 @@ export const centreList = async (req, res) => {
 
 export const centreSuggestions = async (req, res) => {
   try {
-    const centres = await centreModel
-      .find({
-        $or: [
-          { centreName: { $regex: req.body.value } },
-          { adminEmail: { $regex: req.body.value } },
-          { adminPhone: { $regex: req.body.value } },
-          { adminName: { $regex: req.body.value } },
-        ],
-      })
-      .limit(10);
+    if (req.body.value) {
+      const centres = await centreModel
+        .find({
+          $or: [
+            { centreName: { $regex: req.body.value } },
+            { adminEmail: { $regex: req.body.value } },
+            { adminPhone: { $regex: req.body.value } },
+            { adminName: { $regex: req.body.value } },
+          ],
+        })
+        .limit(10);
 
-    res.send(centres);
+      return res.send(centres);
+    }
+    res.send([]);
   } catch (error) {
     res.status(500).send(new Error(error).message);
   }
